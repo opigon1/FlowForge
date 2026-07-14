@@ -8,7 +8,6 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   ...tselint.configs.recommended,
-
   // {
   //   plugins: {
   //     boundaries,

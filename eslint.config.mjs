@@ -44,11 +44,11 @@ const eslintConfig = defineConfig([
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
-      'boundaries/element-types': [
+      'boundaries/dependencies': [
         'error',
         {
           default: 'disallow',
-          rules: [
+          policies: [
             {
               from: 'domain',
               allow: ['domain', 'shared'],
@@ -67,7 +67,7 @@ const eslintConfig = defineConfig([
             },
             {
               from: 'shared',
-              allow: ['shared', 'application', 'ifrastructure'],
+              allow: ['shared', 'application', 'infrastructure'],
             },
           ],
         },

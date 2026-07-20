@@ -1,73 +1,77 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
-import tselint from 'typescript-eslint';
-// import boundaries from 'eslint-plugin-boundaries';
+import tseslint from 'typescript-eslint';
+import boundaries from 'eslint-plugin-boundaries';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  ...tselint.configs.recommended,
-  // {
-  //   plugins: {
-  //     boundaries,
-  //   },
-  // },
+  ...tseslint.configs.recommended,
+  {
+    plugins: {
+      boundaries,
+    },
+  },
 
-  // {
-  //   settings: {
-  //     'boundaries/elements': [
-  //       {
-  //         type: 'app',
-  //         pattern: 'src/app/**',
-  //       },
-  //       {
-  //         type: 'domain',
-  //         pattern: 'src/domain/**',
-  //       },
-  //       {
-  //         type: 'application',
-  //         pattern: 'src/application/**',
-  //       },
-  //       {
-  //         type: 'infrastructure',
-  //         pattern: 'src/infrastructure/**',
-  //       },
-  //       {
-  //         type: 'shared',
-  //         pattern: 'src/shared/**',
-  //       },
-  //     ],
-  //   },
-  // },
+  {
+    settings: {
+      'boundaries/elements': [
+        {
+          type: 'app',
+          pattern: 'src/app/**',
+        },
+        {
+          type: 'domain',
+          pattern: 'src/domain/**',
+        },
+        {
+          type: 'application',
+          pattern: 'src/application/**',
+        },
+        {
+          type: 'infrastructure',
+          pattern: 'src/infrastructure/**',
+        },
+        {
+          type: 'shared',
+          pattern: 'src/shared/**',
+        },
+      ],
+    },
+  },
 
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
-      // 'boundaries/element-types': [
-      //   'error',
-      //   {
-      //     default: 'disallow',
-      //     rules: [
-      //       {
-      //         from: 'domain',
-      //         allow: ['domain', 'shared'],
-      //       },
-      //       {
-      //         from: 'application',
-      //         allow: ['application', 'domain', 'shared'],
-      //       },
-      //       {
-      //         from: 'infrastructure',
-      //         allow: ['infrastructure', 'domain', 'shared'],
-      //       },
-      //       {
-      //         from: 'app',
-      //         allow: ['app', 'infrastructure', 'application', 'domain', 'shared'],
-      //       },
-      //     ],
-      //   },
-      // ],
+      'boundaries/element-types': [
+        'error',
+        {
+          default: 'disallow',
+          rules: [
+            {
+              from: 'domain',
+              allow: ['domain', 'shared'],
+            },
+            {
+              from: 'application',
+              allow: ['application', 'domain', 'shared'],
+            },
+            {
+              from: 'infrastructure',
+              allow: ['infrastructure', 'domain', 'shared'],
+            },
+            {
+              from: 'app',
+              allow: ['app', 'infrastructure', 'application', 'domain', 'shared'],
+            },
+            {
+              from: 'shared',
+              allow: ['shared', 'application', 'ifrastructure'],
+            },
+          ],
+        },
+      ],
     },
   },
   // Override default ignores of eslint-config-next.

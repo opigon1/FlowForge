@@ -12,13 +12,7 @@ export class PrismaTaskRepository implements TaskRepository {
     if (!task) {
       return null;
     }
-    return new Task(
-      task.id,
-      new TaskTitle(task.title),
-      task.columnId,
-      task.createdAt,
-      task.updatedAt,
-    );
+    return new Task(task.id, new TaskTitle(task.title), task.createdAt, task.updatedAt);
   }
 
   async save(task: Task): Promise<void> {
@@ -26,7 +20,6 @@ export class PrismaTaskRepository implements TaskRepository {
       where: { id: task.id },
       data: {
         title: task.title.toString(),
-        columnId: task.columnId,
         updatedAt: task.updatedAt,
       },
     });

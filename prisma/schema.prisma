@@ -7,10 +7,40 @@ datasource db {
   provider = "postgresql"
 }
 
+model Board {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  columns Column[]
+}
+
+model Column {
+  id        String   @id @default(cuid())
+  title     String
+  position  Int
+  taskLimit Int?
+
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  tasks Task[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([boardId, title])
+  @@unique([boardId, position])
+}
+
 model Task {
   id        String   @id @default(cuid())
   title     String
-  columnId  String
+
+  columnId String
+  column   Column @relation(fields: [columnId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

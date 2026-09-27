@@ -37,7 +37,7 @@ export class Column {
   }
 
   addTask(task: Task) {
-    if (!this.canAcceptTask(this.tasks.length)) {
+    if (!this.canAcceptTask()) {
       throw new Error('Task limit reached for this column');
     }
 
@@ -60,11 +60,11 @@ export class Column {
     this.updatedAt = new Date();
   }
 
-  canAcceptTask(tasksCount: number): boolean {
+  canAcceptTask(): boolean {
     if (this.taskLimit === undefined) {
       return true;
     }
-    return this.taskLimit > tasksCount;
+    return this.taskLimit > this.tasks.length;
   }
 
   changePosition(newPosition: number) {
@@ -73,5 +73,17 @@ export class Column {
     }
     this.position = newPosition;
     this.updatedAt = new Date();
+  }
+
+  static restore(
+    id: string,
+    title: ColumnTitle,
+    position: number,
+    tasks: Task[],
+    createdAt: Date,
+    updatedAt: Date,
+    taskLimit?: number,
+  ): Column {
+    return new Column(id, title, position, tasks, createdAt, updatedAt, taskLimit);
   }
 }

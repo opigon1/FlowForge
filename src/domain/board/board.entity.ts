@@ -10,6 +10,10 @@ export class Board {
     private updatedAt: Date,
   ) {}
 
+  getId(): Readonly<string> {
+    return this.id;
+  }
+
   getTitle(): BoardTitle {
     return this.title;
   }
@@ -32,13 +36,14 @@ export class Board {
   }
 
   removeColumn(columnId: string) {
-    if (this.columns.length === 1) {
-      throw new Error('Cannot remove the last column from the board');
-    }
     const index = this.columns.findIndex((c) => c.getId() === columnId);
     if (index === -1) {
       throw new Error('Column not found');
     }
+    if (this.columns.length === 1) {
+      throw new Error('Cannot remove the last column from the board');
+    }
+
     this.columns.splice(index, 1);
     this.updatedAt = new Date();
   }
@@ -55,20 +60,28 @@ export class Board {
 
   moveTask(taskId: string, targetColumnId: string) {
     const targetColumn = this.findColumn(targetColumnId);
-    if (!targetColumn) {
-      throw new Error('Target column not found');
-    }
+
     const sourceColumn = this.columns.find((c) => c.hasTask(taskId));
     if (!sourceColumn) {
       throw new Error('Task not found in any column');
     }
 
-    if (targetColumn.canAcceptTask(sourceColumn.getTasks().length)) {
-      throw new Error('Target column cannot accept more tasks');
+    if (!targetColumn.canAcceptTask()) {
+      throw new Error('Task limit reached for this column');
     }
 
     const task = sourceColumn.removeTask(taskId);
     targetColumn.addTask(task);
     this.updatedAt = new Date();
+  }
+
+  static restore(
+    id: string,
+    title: BoardTitle,
+    columns: Column[],
+    createdAt: Date,
+    updatedAt: Date,
+  ): Board {
+    return new Board(id, title, columns, createdAt, updatedAt);
   }
 }

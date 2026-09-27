@@ -1,4 +1,4 @@
-import { MAX_BOARD_TITLE_LENGTH, MIN_BOARD_TITLE_LENGTH } from '@/shared/constants/board';
+import { MAX_BOARD_TITLE_LENGTH, MIN_BOARD_TITLE_LENGTH } from '@/shared/constants/board/index';
 
 export class BoardTitle {
   private readonly value: string;

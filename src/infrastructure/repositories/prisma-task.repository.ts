@@ -1,7 +1,7 @@
 import { Task } from '@/domain/task/task.entity';
 import { TaskRepository } from '@/domain/task/task.repository';
 import { prisma } from '../database/prisma.client';
-import { TaskTitle } from '@/domain/task/value-objects/task-title.vo';
+import { TaskMapper } from '../persistence/prisma/mappers/task.mapper';
 
 export class PrismaTaskRepository implements TaskRepository {
   async findById(id: string): Promise<Task | null> {
@@ -12,15 +12,14 @@ export class PrismaTaskRepository implements TaskRepository {
     if (!task) {
       return null;
     }
-    return new Task(task.id, new TaskTitle(task.title), task.createdAt, task.updatedAt);
+    return TaskMapper.toDomain(task);
   }
 
   async save(task: Task): Promise<void> {
     await prisma.task.update({
-      where: { id: task.id },
+      where: { id: task.getId() },
       data: {
-        title: task.title.toString(),
-        updatedAt: task.updatedAt,
+        title: task.getTitle().toString(),
       },
     });
   }

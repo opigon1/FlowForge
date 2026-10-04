@@ -67,7 +67,7 @@ const eslintConfig = defineConfig([
             },
             {
               from: 'shared',
-              allow: ['shared', 'application', 'infrastructure'],
+              allow: ['shared', 'application', 'infrastructure', 'domain'],
             },
           ],
         },

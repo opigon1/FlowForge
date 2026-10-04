@@ -28,6 +28,7 @@ export class BoardMapper {
         ),
         column.createdAt,
         column.updatedAt,
+        column.taskLimit ?? undefined,
       );
     });
     return Board.restore(

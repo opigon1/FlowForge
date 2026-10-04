@@ -1,4 +1,5 @@
 import { BoardRepository } from '../board.repository';
+import { BoardNotFoundError } from '../errors/board-not-found.error';
 
 type MoveTaskInput = {
   boardId: string;
@@ -12,7 +13,7 @@ export class MoveTaskUseCase {
   async execute({ boardId, taskId, targetColumnId }: MoveTaskInput): Promise<void> {
     const board = await this.boardRepository.findById(boardId);
     if (!board) {
-      throw new Error('Board not found');
+      throw new BoardNotFoundError();
     }
 
     board.moveTask(taskId, targetColumnId);

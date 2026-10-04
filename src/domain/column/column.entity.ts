@@ -1,4 +1,6 @@
+import { TaskNotFoundError } from '../board/errors/task-not-found.error';
 import { Task } from '../task/task.entity';
+import { TaskLimitReachedError } from './errors/task-limit-reached.error';
 import { ColumnTitle } from './value-objects/column-title.vo';
 
 export class Column {
@@ -38,7 +40,7 @@ export class Column {
 
   addTask(task: Task) {
     if (!this.canAcceptTask()) {
-      throw new Error('Task limit reached for this column');
+      throw new TaskLimitReachedError();
     }
 
     this.tasks.push(task);
@@ -48,7 +50,7 @@ export class Column {
   removeTask(taskId: string) {
     const index = this.tasks.findIndex((t) => t.getId() === taskId);
     if (index === -1) {
-      throw new Error('Task not found in this column');
+      throw new TaskNotFoundError();
     }
     const [removedTask] = this.tasks.splice(index, 1);
     this.updatedAt = new Date();

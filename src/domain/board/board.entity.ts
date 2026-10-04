@@ -1,4 +1,7 @@
 import { Column } from '../column/column.entity';
+import { TaskLimitReachedError } from '../column/errors/task-limit-reached.error';
+import { ColumnNotFoundError } from './errors/column-not-found.error';
+import { TaskNotFoundError } from './errors/task-not-found.error';
 import { BoardTitle } from './value-objects/board-title.vo';
 
 export class Board {
@@ -38,7 +41,7 @@ export class Board {
   removeColumn(columnId: string) {
     const index = this.columns.findIndex((c) => c.getId() === columnId);
     if (index === -1) {
-      throw new Error('Column not found');
+      throw new ColumnNotFoundError();
     }
     if (this.columns.length === 1) {
       throw new Error('Cannot remove the last column from the board');
@@ -52,7 +55,7 @@ export class Board {
     const column = this.columns.find((c) => c.getId() === columnId);
 
     if (!column) {
-      throw new Error('Column not found');
+      throw new ColumnNotFoundError();
     }
 
     return column;
@@ -63,11 +66,11 @@ export class Board {
 
     const sourceColumn = this.columns.find((c) => c.hasTask(taskId));
     if (!sourceColumn) {
-      throw new Error('Task not found in any column');
+      throw new TaskNotFoundError();
     }
 
     if (!targetColumn.canAcceptTask()) {
-      throw new Error('Task limit reached for this column');
+      throw new TaskLimitReachedError();
     }
 
     const task = sourceColumn.removeTask(taskId);

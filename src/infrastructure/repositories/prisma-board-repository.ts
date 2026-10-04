@@ -17,6 +17,17 @@ export class PrismaBoardRepository implements BoardRepository {
     return BoardMapper.toDomain(board);
   }
 
+  async create(board: Board): Promise<void> {
+    await prisma.board.create({
+      data: {
+        id: board.getId(),
+        title: board.getTitle().toString(),
+        createdAt: board.getCreatedAt(),
+        updatedAt: board.getUpdatedAt(),
+      },
+    });
+  }
+
   async save(board: Board): Promise<void> {
     await prisma.$transaction(async (tx) => {
       await tx.board.update({

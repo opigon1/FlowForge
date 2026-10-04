@@ -22,6 +22,10 @@ class FakeBoardRepository implements BoardRepository {
   async save(board: Board): Promise<void> {
     this.savedBoard = board;
   }
+
+  async create(board: Board): Promise<void> {
+    this.board = board;
+  }
 }
 
 it('should move task between columns', async () => {

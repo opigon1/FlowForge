@@ -5,6 +5,7 @@ import { Column } from '../column/column.entity';
 import { ColumnTitle } from '../column/value-objects/column-title.vo';
 import { TaskTitle } from '../task/value-objects/task-title.vo';
 import { Task } from '../task/task.entity';
+import { TaskLimitReachedError } from '../column/errors/task-limit-reached.error';
 
 describe('Board', () => {
   it('should add column', () => {
@@ -64,6 +65,6 @@ describe('Board', () => {
     board.addColumn(column);
     column.addTask(task1);
 
-    expect(() => column.addTask(task2)).toThrow('Task limit reached for this column');
+    expect(() => column.addTask(task2)).toThrow(TaskLimitReachedError);
   });
 });

@@ -25,6 +25,19 @@ export class Board {
     return this.columns;
   }
 
+  getCreatedAt(): Readonly<Date> {
+    return this.createdAt;
+  }
+
+  getUpdatedAt(): Readonly<Date> {
+    return this.updatedAt;
+  }
+
+  static create(title: BoardTitle): Board {
+    const now = new Date();
+    return new Board(crypto.randomUUID(), title, [], now, now);
+  }
+
   rename(newTitle: BoardTitle) {
     this.title = newTitle;
     this.updatedAt = new Date();

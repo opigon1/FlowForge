@@ -1,7 +1,7 @@
 import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
 import { ColumnNotFoundError } from '@/domain/board/errors/column-not-found.error';
 import { TaskNotFoundError } from '@/domain/board/errors/task-not-found.error';
-import { TaskLimitReachedError } from '@/domain/column/errors/task-limit-reached.error';
+import { InvalidTaskLimitError } from '@/domain/column/errors/invalid-task-limit.error';
 import { getMoveTaskUseCase } from '@/shared/container/board.container';
 import { NextResponse } from 'next/server';
 import { moveTaskSchema } from './move-task.schema';
@@ -49,7 +49,7 @@ export async function POST(
       return NextResponse.json({ message: error.message }, { status: 404 });
     }
 
-    if (error instanceof TaskLimitReachedError) {
+    if (error instanceof InvalidTaskLimitError) {
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
 

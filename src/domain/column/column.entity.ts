@@ -1,6 +1,6 @@
 import { TaskNotFoundError } from '../board/errors/task-not-found.error';
 import { Task } from '../task/task.entity';
-import { TaskLimitReachedError } from './errors/task-limit-reached.error';
+import { InvalidTaskLimitError } from './errors/invalid-task-limit.error';
 import { ColumnTitle } from './value-objects/column-title.vo';
 
 export class Column {
@@ -38,9 +38,26 @@ export class Column {
     return this.tasks.some((t) => t.getId() === taskId);
   }
 
+  getCreatedAt(): Readonly<Date> {
+    return this.createdAt;
+  }
+
+  getUpdatedAt(): Readonly<Date> {
+    return this.updatedAt;
+  }
+
+  static create(title: ColumnTitle, position: number, taskLimit?: number): Column {
+    if (position < 0) {
+      throw new InvalidTaskLimitError('Position cannot be negative');
+    }
+
+    const now = new Date();
+    return new Column(crypto.randomUUID(), title, position, [], now, now, taskLimit);
+  }
+
   addTask(task: Task) {
     if (!this.canAcceptTask()) {
-      throw new TaskLimitReachedError();
+      throw new InvalidTaskLimitError('Cannot add task: column has reached its task limit');
     }
 
     this.tasks.push(task);
@@ -71,7 +88,7 @@ export class Column {
 
   changePosition(newPosition: number) {
     if (newPosition < 0) {
-      throw new Error('Position cannot be negative');
+      throw new InvalidTaskLimitError('Position cannot be negative');
     }
     this.position = newPosition;
     this.updatedAt = new Date();

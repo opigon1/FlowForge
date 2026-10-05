@@ -1,5 +1,5 @@
 import { Column } from '../column/column.entity';
-import { TaskLimitReachedError } from '../column/errors/task-limit-reached.error';
+import { InvalidTaskLimitError } from '../column/errors/invalid-task-limit.error';
 import { ColumnNotFoundError } from './errors/column-not-found.error';
 import { TaskNotFoundError } from './errors/task-not-found.error';
 import { BoardTitle } from './value-objects/board-title.vo';
@@ -23,6 +23,10 @@ export class Board {
 
   getColumns(): ReadonlyArray<Column> {
     return this.columns;
+  }
+
+  getNextColumnPosition(): number {
+    return this.columns.length;
   }
 
   getCreatedAt(): Readonly<Date> {
@@ -83,7 +87,7 @@ export class Board {
     }
 
     if (!targetColumn.canAcceptTask()) {
-      throw new TaskLimitReachedError();
+      throw new InvalidTaskLimitError('Cannot move task: target column has reached its task limit');
     }
 
     const task = sourceColumn.removeTask(taskId);

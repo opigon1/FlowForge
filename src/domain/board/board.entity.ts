@@ -1,5 +1,5 @@
 import { Column } from '../column/column.entity';
-import { InvalidTaskLimitError } from '../column/errors/invalid-task-limit.error';
+import { TaskLimitReachedError } from '../column/errors/task-limit-reached-error.error';
 import { ColumnNotFoundError } from './errors/column-not-found.error';
 import { TaskNotFoundError } from './errors/task-not-found.error';
 import { BoardTitle } from './value-objects/board-title.vo';
@@ -87,7 +87,7 @@ export class Board {
     }
 
     if (!targetColumn.canAcceptTask()) {
-      throw new InvalidTaskLimitError('Cannot move task: target column has reached its task limit');
+      throw new TaskLimitReachedError('Cannot move task: target column has reached its task limit');
     }
 
     const task = sourceColumn.removeTask(taskId);

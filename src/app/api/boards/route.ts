@@ -18,7 +18,20 @@ export async function POST(request: Request) {
     const response = {
       id: board.getId(),
       title: board.getTitle().toString(),
-      columns: board.getColumns(),
+      columns: board.getColumns().map((column) => ({
+        id: column.getId(),
+        title: column.getTitle().toString(),
+        position: column.getPosition(),
+        taskLimit: column.getTaskLimit() ?? null,
+        createdAt: column.getCreatedAt(),
+        updatedAt: column.getUpdatedAt(),
+        tasks: column.getTasks().map((task) => ({
+          id: task.getId(),
+          title: task.getTitle().toString(),
+          createdAt: task.getCreatedAt(),
+          updatedAt: task.getUpdatedAt(),
+        })),
+      })),
       createdAt: board.getCreatedAt(),
       updatedAt: board.getUpdatedAt(),
     };

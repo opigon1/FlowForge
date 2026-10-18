@@ -3,6 +3,7 @@ import { CreateColumnUseCase } from '@/domain/board/use-case/create-column.use-c
 import { CreateTaskUseCase } from '@/domain/board/use-case/create-task.use-case';
 import { GetBoardUseCase } from '@/domain/board/use-case/get-board.use-case';
 import { MoveTaskUseCase } from '@/domain/board/use-case/move-task.use-case';
+import { RenameTaskUseCase } from '@/domain/task/use-case/rename-task.use-case';
 import { PrismaBoardRepository } from '@/infrastructure/repositories/prisma-board-repository';
 
 const repository = new PrismaBoardRepository();
@@ -25,4 +26,8 @@ export function getCreateTaskUseCase() {
 
 export function getBoardUseCase() {
   return new GetBoardUseCase(repository);
+}
+
+export function getRenameTaskUseCase() {
+  return new RenameTaskUseCase(repository);
 }

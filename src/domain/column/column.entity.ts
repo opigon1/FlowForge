@@ -74,6 +74,14 @@ export class Column {
     return removedTask;
   }
 
+  findTask(taskId: string): Task {
+    const task = this.tasks.find((t) => t.getId() === taskId);
+    if (!task) {
+      throw new TaskNotFoundError();
+    }
+    return task;
+  }
+
   rename(newTitle: ColumnTitle) {
     this.title = newTitle;
     this.updatedAt = new Date();

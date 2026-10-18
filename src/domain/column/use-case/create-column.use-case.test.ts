@@ -1,8 +1,8 @@
+import { Board } from '@/domain/board/board.entity';
+import { BoardRepository } from '@/domain/board/board.repository';
+import { BoardTitle } from '@/domain/board/value-objects/board-title.vo';
 import { expect, it } from 'vitest';
-import { Board } from '../board.entity';
-import { BoardRepository } from '../board.repository';
 import { CreateColumnUseCase } from './create-column.use-case';
-import { BoardTitle } from '../value-objects/board-title.vo';
 
 class FakeBoardRepository implements BoardRepository {
   board: Board | null = null;

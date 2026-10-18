@@ -1,7 +1,7 @@
 import { Column } from '@/domain/column/column.entity';
-import { BoardRepository } from '../board.repository';
+import { BoardRepository } from '../../board/board.repository';
 import { ColumnTitle } from '@/domain/column/value-objects/column-title.vo';
-import { BoardNotFoundError } from '../errors/board-not-found.error';
+import { BoardNotFoundError } from '../../board/errors/board-not-found.error';
 
 export class CreateColumnUseCase {
   constructor(private readonly boardRepository: BoardRepository) {}

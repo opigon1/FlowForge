@@ -1,7 +1,7 @@
 import { Task } from '@/domain/task/task.entity';
-import { BoardRepository } from '../board.repository';
-import { BoardNotFoundError } from '../errors/board-not-found.error';
-import { ColumnNotFoundError } from '../errors/column-not-found.error';
+import { BoardRepository } from '../../board/board.repository';
+import { BoardNotFoundError } from '../../board/errors/board-not-found.error';
+import { ColumnNotFoundError } from '../../board/errors/column-not-found.error';
 import { TaskTitle } from '@/domain/task/value-objects/task-title.vo';
 
 export class CreateTaskUseCase {

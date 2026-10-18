@@ -1,5 +1,5 @@
-import { BoardRepository } from '../board.repository';
-import { BoardNotFoundError } from '../errors/board-not-found.error';
+import { BoardRepository } from '../../board/board.repository';
+import { BoardNotFoundError } from '../../board/errors/board-not-found.error';
 
 type MoveTaskInput = {
   boardId: string;

@@ -1,8 +1,8 @@
 import { expect, it } from 'vitest';
-import { Board } from '../board.entity';
-import { BoardRepository } from '../board.repository';
+import { Board } from '../../board/board.entity';
+import { BoardRepository } from '../../board/board.repository';
 import { MoveTaskUseCase } from './move-task.use-case';
-import { BoardTitle } from '../value-objects/board-title.vo';
+import { BoardTitle } from '../../board/value-objects/board-title.vo';
 import { Column } from '@/domain/column/column.entity';
 import { ColumnTitle } from '@/domain/column/value-objects/column-title.vo';
 import { Task } from '@/domain/task/task.entity';

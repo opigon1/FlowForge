@@ -1,8 +1,8 @@
 import { CreateBoardUseCase } from '@/domain/board/use-case/create-board.use-case';
-import { CreateColumnUseCase } from '@/domain/board/use-case/create-column.use-case';
-import { CreateTaskUseCase } from '@/domain/board/use-case/create-task.use-case';
+import { CreateColumnUseCase } from '@/domain/column/use-case/create-column.use-case';
+import { CreateTaskUseCase } from '@/domain/task/use-case/create-task.use-case';
 import { GetBoardUseCase } from '@/domain/board/use-case/get-board.use-case';
-import { MoveTaskUseCase } from '@/domain/board/use-case/move-task.use-case';
+import { MoveTaskUseCase } from '@/domain/task/use-case/move-task.use-case';
 import { RenameTaskUseCase } from '@/domain/task/use-case/rename-task.use-case';
 import { PrismaBoardRepository } from '@/infrastructure/repositories/prisma-board-repository';
 

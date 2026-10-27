@@ -6,6 +6,7 @@ import { MoveTaskUseCase } from '@/domain/task/use-case/move-task.use-case';
 import { RenameTaskUseCase } from '@/domain/task/use-case/rename-task.use-case';
 import { PrismaBoardRepository } from '@/infrastructure/repositories/prisma-board-repository';
 import { DeleteTaskUseCase } from '@/domain/task/use-case/delete-task.use-case';
+import { RenameColumnUseCase } from '@/domain/column/use-case/rename-column.use-case';
 
 const repository = new PrismaBoardRepository();
 
@@ -19,6 +20,10 @@ export function getMoveTaskUseCase() {
 
 export function getCreateColumnUseCase() {
   return new CreateColumnUseCase(repository);
+}
+
+export function getRenameColumnUseCase() {
+  return new RenameColumnUseCase(repository);
 }
 
 export function getCreateTaskUseCase() {

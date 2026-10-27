@@ -7,3 +7,10 @@ export const createColumnSchema = z.object({
     .min(MIN_COLUMN_TITLE_LENGTH, { message: 'Column title is too short' })
     .max(MAX_COLUMN_TITLE_LENGTH, { message: 'Column title is too long' }),
 });
+
+export const renameColumnSchema = z.object({
+  title: z
+    .string()
+    .min(MIN_COLUMN_TITLE_LENGTH, { message: 'Column title is too short' })
+    .max(MAX_COLUMN_TITLE_LENGTH, { message: 'Column title is too long' }),
+});

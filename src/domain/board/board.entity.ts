@@ -1,6 +1,8 @@
 import { Column } from '../column/column.entity';
 import { TaskLimitReachedError } from '../column/errors/task-limit-reached-error.error';
+import { ColumnTitle } from '../column/value-objects/column-title.vo';
 import { ColumnNotFoundError } from './errors/column-not-found.error';
+import { DuplicateColumnTitleError } from './errors/duplicate-column-title.error';
 import { TaskNotFoundError } from './errors/task-not-found.error';
 import { BoardTitle } from './value-objects/board-title.vo';
 
@@ -49,9 +51,24 @@ export class Board {
 
   addColumn(column: Column) {
     if (this.columns.some((c) => c.getTitle().equals(column.getTitle()))) {
-      throw new Error('A column with this title already exists in the board');
+      new DuplicateColumnTitleError();
     }
     this.columns.push(column);
+    this.updatedAt = new Date();
+  }
+
+  renameColumn(columnId: string, newTitle: ColumnTitle) {
+    const column = this.findColumn(columnId);
+
+    const titleAlreadyExists = this.columns.some(
+      (otherColumn) => otherColumn.getId() !== columnId && otherColumn.getTitle().equals(newTitle),
+    );
+
+    if (titleAlreadyExists) {
+      throw new DuplicateColumnTitleError();
+    }
+
+    column.rename(newTitle);
     this.updatedAt = new Date();
   }
 

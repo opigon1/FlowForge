@@ -3,6 +3,7 @@ import { createColumnSchema } from './columns.sсhema';
 import { getCreateColumnUseCase } from '@/shared/container/board.container';
 import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
 import { InvalidColumnTitleError } from '@/domain/column/errors/invalid-column-title-error.error';
+import { DuplicateColumnTitleError } from '@/domain/board/errors/duplicate-column-title.error';
 
 export async function POST(request: Request, context: { params: Promise<{ boardId: string }> }) {
   try {
@@ -11,7 +12,7 @@ export async function POST(request: Request, context: { params: Promise<{ boardI
     const result = createColumnSchema.safeParse(body);
 
     if (!result.success) {
-      return new Response(JSON.stringify({ message: 'Invalid request body' }), { status: 400 });
+      return NextResponse.json({ message: result.error.issues }, { status: 400 });
     }
 
     const { title } = result.data;
@@ -41,6 +42,10 @@ export async function POST(request: Request, context: { params: Promise<{ boardI
 
     if (error instanceof InvalidColumnTitleError) {
       return NextResponse.json({ message: error.message }, { status: 400 });
+    }
+
+    if (error instanceof DuplicateColumnTitleError) {
+      return NextResponse.json({ message: error.message }, { status: 409 });
     }
 
     return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });

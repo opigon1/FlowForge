@@ -4,7 +4,7 @@ import { getCreateTaskUseCase } from '@/shared/container/board.container';
 import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
 import { ColumnNotFoundError } from '@/domain/board/errors/column-not-found.error';
 import { InvalidTaskTitleError } from '@/domain/task/errors/invalid-task-title-error.error';
-import { TaskLimitReachedError } from '@/domain/column/errors/task-limit-reached-error.error';
+import { InvalidTaskLimitError } from '@/domain/column/errors/Invalid-task-limit-error';
 
 export async function POST(
   request: Request,
@@ -55,7 +55,7 @@ export async function POST(
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
 
-    if (error instanceof TaskLimitReachedError) {
+    if (error instanceof InvalidTaskLimitError) {
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
 

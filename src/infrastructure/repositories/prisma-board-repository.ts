@@ -87,10 +87,12 @@ export class PrismaBoardRepository implements BoardRepository {
             title: column.getTitle().toString(),
             position: column.getPosition(),
             boardId: board.getId(),
+            taskLimit: column.getTaskLimit() ?? null,
           },
           update: {
             title: column.getTitle().toString(),
             position: column.getPosition(),
+            taskLimit: column.getTaskLimit() ?? null,
           },
         });
       }

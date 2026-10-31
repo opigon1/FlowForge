@@ -14,3 +14,7 @@ export const renameColumnSchema = z.object({
     .min(MIN_COLUMN_TITLE_LENGTH, { message: 'Column title is too short' })
     .max(MAX_COLUMN_TITLE_LENGTH, { message: 'Column title is too long' }),
 });
+
+export const changeColumnTaskLimitSchema = z.object({
+  taskLimit: z.number().int().nonnegative().nullable(),
+});

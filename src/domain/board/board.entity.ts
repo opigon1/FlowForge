@@ -1,6 +1,7 @@
 import { Column } from '../column/column.entity';
-import { TaskLimitReachedError } from '../column/errors/task-limit-reached-error.error';
+import { InvalidTaskLimitError } from '../column/errors/Invalid-task-limit-error';
 import { ColumnTitle } from '../column/value-objects/column-title.vo';
+import { CannotRemoveLastColumnError } from './errors/cannot-remove-last-column.error';
 import { ColumnNotFoundError } from './errors/column-not-found.error';
 import { DuplicateColumnTitleError } from './errors/duplicate-column-title.error';
 import { TaskNotFoundError } from './errors/task-not-found.error';
@@ -78,7 +79,7 @@ export class Board {
       throw new ColumnNotFoundError();
     }
     if (this.columns.length === 1) {
-      throw new Error('Cannot remove the last column from the board');
+      throw new CannotRemoveLastColumnError();
     }
 
     this.columns.splice(index, 1);
@@ -104,7 +105,7 @@ export class Board {
     }
 
     if (!targetColumn.canAcceptTask()) {
-      throw new TaskLimitReachedError('Cannot move task: target column has reached its task limit');
+      throw new InvalidTaskLimitError('Cannot move task: target column has reached its task limit');
     }
 
     const task = sourceColumn.removeTask(taskId);

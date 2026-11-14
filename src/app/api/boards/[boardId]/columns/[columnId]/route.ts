@@ -5,12 +5,7 @@ import {
 } from '@/shared/container/board.container';
 import { changeColumnTaskLimitSchema, renameColumnSchema } from '../columns.sсhema';
 import { NextResponse } from 'next/server';
-import { ColumnNotFoundError } from '@/domain/board/errors/column-not-found.error';
-import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
-import { DuplicateColumnTitleError } from '@/domain/board/errors/duplicate-column-title.error';
-import { InvalidColumnTitleError } from '@/domain/column/errors/invalid-column-title-error.error';
-import { CannotRemoveLastColumnError } from '@/domain/board/errors/cannot-remove-last-column.error';
-import { InvalidTaskLimitError } from '@/domain/column/errors/Invalid-task-limit-error';
+import { handleApiError } from '@/shared/http/handle-api-error';
 
 export async function PATCH(
   request: Request,
@@ -69,29 +64,7 @@ export async function PATCH(
 
     return NextResponse.json({ message: 'Provide either title or taskLimit' }, { status: 400 });
   } catch (error) {
-    if (error instanceof SyntaxError) {
-      return NextResponse.json({ message: 'Invalid JSON' }, { status: 400 });
-    }
-
-    if (error instanceof BoardNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-    if (error instanceof ColumnNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof InvalidColumnTitleError) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-    if (error instanceof DuplicateColumnTitleError) {
-      return NextResponse.json({ message: error.message }, { status: 409 });
-    }
-    if (error instanceof InvalidTaskLimitError) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-
-    console.error(error);
-    return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
+    return handleApiError(error);
   }
 }
 
@@ -105,18 +78,6 @@ export async function DELETE(
     await deleteColumnUseCase.execute(boardId, columnId);
     return NextResponse.json({ message: 'column deleted successfully' }, { status: 200 });
   } catch (error) {
-    if (error instanceof BoardNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof ColumnNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof CannotRemoveLastColumnError) {
-      return NextResponse.json({ message: error.message }, { status: 409 });
-    }
-    console.error(error);
-    return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
+    return handleApiError(error);
   }
 }

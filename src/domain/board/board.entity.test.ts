@@ -5,7 +5,7 @@ import { Column } from '../column/column.entity';
 import { ColumnTitle } from '../column/value-objects/column-title.vo';
 import { TaskTitle } from '../task/value-objects/task-title.vo';
 import { Task } from '../task/task.entity';
-import { InvalidTaskLimitError } from '../column/errors/Invalid-task-limit-error';
+import { InvalidTaskLimitError } from '../column/errors/Invalid-task-limit.error';
 
 describe('Board', () => {
   it('should add column', () => {

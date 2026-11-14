@@ -1,7 +1,7 @@
 import { getCreateBoardUseCase } from '@/shared/container/board.container';
 import { createBoardSchema } from './board.schema';
 import { NextResponse } from 'next/server';
-import { InvalidBoardTitleError } from '@/domain/board/errors/invalid-board-title.error';
+import { handleApiError } from '@/shared/http/handle-api-error';
 
 export async function POST(request: Request) {
   try {
@@ -41,14 +41,6 @@ export async function POST(request: Request) {
       { status: 201 },
     );
   } catch (error) {
-    if (error instanceof SyntaxError) {
-      return NextResponse.json({ message: 'Invalid JSON' }, { status: 400 });
-    }
-
-    if (error instanceof InvalidBoardTitleError) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-    console.error(error);
-    return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
+    return handleApiError(error);
   }
 }

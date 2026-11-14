@@ -1,10 +1,12 @@
 import { Column } from '../column/column.entity';
-import { InvalidTaskLimitError } from '../column/errors/Invalid-task-limit-error';
+import { InvalidTaskLimitError } from '../column/errors';
 import { ColumnTitle } from '../column/value-objects/column-title.vo';
-import { CannotRemoveLastColumnError } from './errors/cannot-remove-last-column.error';
-import { ColumnNotFoundError } from './errors/column-not-found.error';
-import { DuplicateColumnTitleError } from './errors/duplicate-column-title.error';
-import { TaskNotFoundError } from './errors/task-not-found.error';
+import {
+  CannotRemoveLastColumnError,
+  ColumnNotFoundError,
+  DuplicateColumnTitleError,
+  TaskNotFoundError,
+} from './errors';
 import { BoardTitle } from './value-objects/board-title.vo';
 
 export class Board {
@@ -102,6 +104,10 @@ export class Board {
     const sourceColumn = this.columns.find((c) => c.hasTask(taskId));
     if (!sourceColumn) {
       throw new TaskNotFoundError();
+    }
+
+    if (sourceColumn.getId() === targetColumn.getId()) {
+      return;
     }
 
     if (!targetColumn.canAcceptTask()) {

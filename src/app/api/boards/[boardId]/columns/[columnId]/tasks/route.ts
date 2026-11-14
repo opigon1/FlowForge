@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createTaskSchema } from './task.schema';
 import { getCreateTaskUseCase } from '@/shared/container/board.container';
-import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
-import { ColumnNotFoundError } from '@/domain/board/errors/column-not-found.error';
-import { InvalidTaskTitleError } from '@/domain/task/errors/invalid-task-title-error.error';
-import { InvalidTaskLimitError } from '@/domain/column/errors/Invalid-task-limit-error';
+import { handleApiError } from '@/shared/http/handle-api-error';
 
 export async function POST(
   request: Request,
@@ -39,26 +36,6 @@ export async function POST(
       { status: 201 },
     );
   } catch (error) {
-    if (error instanceof SyntaxError) {
-      return NextResponse.json({ message: 'Invalid JSON' }, { status: 400 });
-    }
-
-    if (error instanceof BoardNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof ColumnNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof InvalidTaskTitleError) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-
-    if (error instanceof InvalidTaskLimitError) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-
-    return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
+    return handleApiError(error);
   }
 }

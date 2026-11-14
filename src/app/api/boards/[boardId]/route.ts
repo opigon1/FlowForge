@@ -1,5 +1,5 @@
-import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
 import { getBoardUseCase } from '@/shared/container/board.container';
+import { handleApiError } from '@/shared/http/handle-api-error';
 import { NextResponse } from 'next/server';
 
 export async function GET(_: Request, context: { params: Promise<{ boardId: string }> }) {
@@ -31,10 +31,6 @@ export async function GET(_: Request, context: { params: Promise<{ boardId: stri
 
     return NextResponse.json({ message: 'Board retrieved successfully', board: response });
   } catch (error) {
-    if (error instanceof BoardNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-    console.error(error);
-    return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
+    return handleApiError(error);
   }
 }

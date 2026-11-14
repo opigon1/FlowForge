@@ -1,5 +1,5 @@
 import { MAX_COLUMN_TITLE_LENGTH, MIN_COLUMN_TITLE_LENGTH } from '@/shared/constants/columns';
-import { InvalidColumnTitleError } from '../errors/invalid-column-title-error.error';
+import { InvalidColumnTitleError } from '../errors/invalid-column-title.error';
 
 export class ColumnTitle {
   private readonly value: string;

@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createColumnSchema } from './columns.sсhema';
 import { getCreateColumnUseCase } from '@/shared/container/board.container';
-import { BoardNotFoundError } from '@/domain/board/errors/board-not-found.error';
-import { InvalidColumnTitleError } from '@/domain/column/errors/invalid-column-title-error.error';
-import { DuplicateColumnTitleError } from '@/domain/board/errors/duplicate-column-title.error';
+import { handleApiError } from '@/shared/http/handle-api-error';
 
 export async function POST(request: Request, context: { params: Promise<{ boardId: string }> }) {
   try {
@@ -32,22 +30,6 @@ export async function POST(request: Request, context: { params: Promise<{ boardI
       { status: 201 },
     );
   } catch (error) {
-    if (error instanceof SyntaxError) {
-      return NextResponse.json({ message: 'Invalid JSON' }, { status: 400 });
-    }
-
-    if (error instanceof BoardNotFoundError) {
-      return NextResponse.json({ message: error.message }, { status: 404 });
-    }
-
-    if (error instanceof InvalidColumnTitleError) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-
-    if (error instanceof DuplicateColumnTitleError) {
-      return NextResponse.json({ message: error.message }, { status: 409 });
-    }
-
-    return NextResponse.json({ message: 'An unexpected error occurred' }, { status: 500 });
+    return handleApiError(error);
   }
 }

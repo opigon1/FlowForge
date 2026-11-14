@@ -1,7 +1,6 @@
-import { TaskNotFoundError } from '../board/errors/task-not-found.error';
+import { TaskNotFoundError } from '../board/errors';
 import { Task } from '../task/task.entity';
-import { InvalidColumnPositionError } from './errors/invalid-column-position-error.error';
-import { InvalidTaskLimitError } from './errors/Invalid-task-limit-error';
+import { InvalidColumnPositionError, InvalidTaskLimitError } from './errors';
 import { ColumnTitle } from './value-objects/column-title.vo';
 
 export class Column {
